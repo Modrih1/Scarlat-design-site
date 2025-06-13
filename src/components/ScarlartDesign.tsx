@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface ProjectCardProps {
   title?: string;
@@ -23,10 +23,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 };
 
 const ScarlartDesign: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="bg-white font-jost mx-0 size-auto px-0">
       {/* Header */}
-      <header className="w-full px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-4 sticky top-0 bg-white z-50">
+      <header className={`w-full px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-4 fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100' 
+          : 'bg-white'
+      }`}>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-0">
           {/* Logo */}
           <div className="h-[32px] sm:h-[38px] flex items-center">
@@ -79,7 +95,7 @@ const ScarlartDesign: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="px-4 sm:px-6 lg:px-8 pb-0">
+      <main className="px-4 sm:px-6 lg:px-8 pb-0 pt-[120px] sm:pt-[140px] lg:pt-[160px]">
         {/* Hero Section */}
         <section className="w-full mb-16 sm:mb-24 lg:mb-[165px] mt-8 sm:mt-16 lg:mt-[165px]">
           <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-0">
